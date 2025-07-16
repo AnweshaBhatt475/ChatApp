@@ -1,6 +1,6 @@
 /**
- * Upload a file to Cloudinary
- * @param {File} file - file object to upload
+ 
+ * @param {File} file 
  * @param {string} preset - optional preset name (default: 'chat-app-file')
  * @returns {Promise<Object>} - response JSON from Cloudinary
  */

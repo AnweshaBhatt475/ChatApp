@@ -1,4 +1,4 @@
-// src/components/CreateGroup.jsx
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';

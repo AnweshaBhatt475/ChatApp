@@ -13,6 +13,7 @@ const RegisterPage = () => {
     profile_pic: ""
   });
   const [uploadPhoto, setUploadPhoto] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
@@ -25,13 +26,20 @@ const RegisterPage = () => {
 
   const handleUploadPhoto = async (e) => {
     const file = e.target.files[0];
-    const uploaded = await uploadFile(file);
+    if (!file) return;
 
-    setUploadPhoto(file);
-    setData(prev => ({
-      ...prev,
-      profile_pic: uploaded?.url || ""
-    }));
+    try {
+      const uploaded = await uploadFile(file);
+
+      setUploadPhoto(file);
+      setData(prev => ({
+        ...prev,
+        profile_pic: uploaded?.url || ""
+      }));
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error("Failed to upload image.");
+    }
   };
 
   const handleClearUploadPhoto = (e) => {
@@ -47,6 +55,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+    setLoading(true);
 
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/register`;
 
@@ -55,16 +64,10 @@ const RegisterPage = () => {
       finalData.profile_pic = `https://ui-avatars.com/api/?name=${encodeURIComponent(finalData.name || "User")}`;
     }
 
-    console.log("Submitting:", finalData);
-
     try {
-      const response = await axios.post(URL, finalData, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      const response = await axios.post(URL, finalData);
 
-      toast.success(response.data.message || "Registered successfully!");
+      toast.success(response?.data?.message || "Registered successfully!");
 
       if (response.data.success) {
         setData({
@@ -79,6 +82,8 @@ const RegisterPage = () => {
     } catch (error) {
       console.error("Register error:", error);
       toast.error(error?.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -160,9 +165,10 @@ const RegisterPage = () => {
 
           <button
             type='submit'
-            className='bg-primary text-lg px-4 py-2 rounded font-bold text-white tracking-wide transition hover:bg-secondary hover:scale-[1.02]'
+            disabled={loading}
+            className={`bg-primary text-lg px-4 py-2 rounded font-bold text-white tracking-wide transition hover:bg-secondary hover:scale-[1.02] ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 

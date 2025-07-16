@@ -26,7 +26,7 @@ const Avatar = ({ userId, name = "", imageUrl = "", width = 40, height = 40 }) =
 
   return (
     <div
-      className="text-slate-800 rounded-full font-bold relative overflow-hidden"
+      className="text-slate-800 rounded-full font-semibold relative overflow-hidden shadow-sm"
       style={{ width: `${width}px`, height: `${height}px` }}
     >
       {showImage ? (
@@ -35,22 +35,25 @@ const Avatar = ({ userId, name = "", imageUrl = "", width = 40, height = 40 }) =
           alt={name}
           width={width}
           height={height}
-          className="rounded-full object-cover w-full h-full border border-slate-300 hover:scale-105 transition duration-150"
+          className="rounded-full object-cover w-full h-full border border-slate-300 hover:scale-105 transition-transform duration-200"
           onError={() => setImgError(true)}
         />
       ) : avatarName ? (
         <div
-          className={`flex justify-center items-center text-lg ${bgColor[hash]}`}
+          className={`flex justify-center items-center text-lg ${bgColor[hash]} text-slate-700`}
           style={{ width: `${width}px`, height: `${height}px` }}
         >
           {avatarName}
         </div>
       ) : (
-        <PiUserCircle size={width} />
+        <PiUserCircle size={width} className="text-slate-500" />
       )}
 
       {isOnline && (
-        <div className="bg-green-600 p-[6px] absolute bottom-0 right-0 z-10 rounded-full border-[2px] border-white" />
+        <div className="absolute bottom-[2px] right-[2px] z-10">
+          <div className="w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+          <div className="w-5 h-5 rounded-full absolute top-[-4px] left-[-4px] border border-green-400" />
+        </div>
       )}
     </div>
   );

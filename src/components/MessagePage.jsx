@@ -11,6 +11,8 @@ import backgroundImage from '../assets/wallapaper.jpeg'
 import { IoMdSend } from "react-icons/io";
 import moment from 'moment'
 
+
+
 const MessagePage = () => {
   const params = useParams()
   const socketConnection = useSelector(state => state?.user?.socketConnection)
@@ -226,7 +228,13 @@ const MessagePage = () => {
                 <p className='px-2'>{msg.text}</p>
                 <p className='text-xs ml-auto w-fit flex items-center gap-1'>
                   {moment(msg.createdAt).format('hh:mm')}
-                  {user._id === msg?.msgByUserId && <span className="text-green-600">✔️</span>}
+                  {user._id === msg?.msgByUserId && (
+  <span className={`${msg.seen ? 'text-blue-500' : 'text-gray-500'}`}>
+    {msg.seen ? '✔✔' : '✔'}
+  </span>
+)}
+
+                
                 </p>
               </div>
             ))}

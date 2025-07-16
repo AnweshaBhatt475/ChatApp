@@ -12,9 +12,8 @@ const CheckPasswordPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.user); // ✅ Use user from Redux
+  const user = useSelector((state) => state.user);
 
-  // Redirect if required user data is not in location (during first visit)
   useEffect(() => {
     if (!location?.state?._id || !location?.state?.name) {
       navigate('/email');
@@ -62,31 +61,33 @@ const CheckPasswordPage = () => {
   };
 
   return (
-    <div className='mt-5 px-4'>
-      <div className='bg-white w-full max-w-md rounded-xl overflow-hidden p-6 mx-auto shadow-md transition-all duration-150'>
-        <div className='w-fit mx-auto mb-4 flex justify-center items-center flex-col'>
+    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-200 px-4'>
+      <div className='bg-white w-full max-w-md rounded-2xl p-6 shadow-lg transition-all duration-300'>
+        {/* Avatar + Name */}
+        <div className='flex flex-col items-center mb-6'>
           <Avatar
             width={70}
             height={70}
             name={user?.name || location?.state?.name || "User"}
             imageUrl={user?.profile_pic || location?.state?.profile_pic}
           />
-          <h2 className='font-semibold text-lg mt-2 text-slate-800 text-center tracking-wide'>
+          <h2 className='font-semibold text-lg mt-3 text-slate-800 tracking-wide text-center'>
             {user?.name || location?.state?.name || "User"}
           </h2>
         </div>
 
-        <form className='grid gap-4 mt-3' onSubmit={handleSubmit}>
+        {/* Form */}
+        <form className='grid gap-4' onSubmit={handleSubmit}>
           <div className='flex flex-col gap-1'>
             <label htmlFor='password' className='text-sm font-medium text-slate-700'>
-              Password:
+              Password
             </label>
             <input
               type='password'
               id='password'
               name='password'
               placeholder='Enter your password'
-              className='bg-slate-100 px-3 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-primary transition duration-150 ease-in-out'
+              className='bg-slate-100 px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm transition duration-200'
               value={data.password}
               onChange={handleOnChange}
               required
@@ -96,13 +97,13 @@ const CheckPasswordPage = () => {
 
           <button
             type='submit'
-            className='bg-primary text-lg px-4 py-2 rounded mt-2 font-bold text-white tracking-wide transition-transform duration-200 hover:bg-secondary hover:scale-[1.02]'
+            className='bg-primary text-white text-base px-4 py-2 rounded-lg font-semibold tracking-wide shadow hover:bg-secondary transition-transform duration-200 hover:scale-105'
           >
             Login
           </button>
         </form>
 
-        <p className='my-3 text-center text-sm'>
+        <p className='mt-4 text-center text-sm text-slate-600'>
           <Link to={"/forgot-password"} className='hover:text-primary font-semibold transition duration-150'>
             Forgot password?
           </Link>

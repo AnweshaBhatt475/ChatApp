@@ -7,7 +7,7 @@ const UserSearchCard = ({ user, onClose }) => {
     <Link
       to={`/${user?._id}`}
       onClick={onClose}
-      className="flex items-center gap-4 p-3 lg:p-4 border-b border-slate-200 hover:border-primary hover:bg-slate-50 transition duration-150 rounded-md cursor-pointer"
+      className="flex items-center gap-4 p-3 lg:p-4 border-b border-slate-200 hover:border-primary hover:bg-slate-50 hover:shadow-md transition-all duration-200 ease-in-out rounded-xl cursor-pointer"
     >
       <Avatar
         width={50}
@@ -18,7 +18,7 @@ const UserSearchCard = ({ user, onClose }) => {
       />
 
       <div className="min-w-0">
-        <div className="font-semibold text-base text-slate-800 truncate">
+        <div className="font-semibold text-base lg:text-lg text-slate-800 truncate">
           {user?.name}
         </div>
         <p className="text-sm text-slate-500 truncate">

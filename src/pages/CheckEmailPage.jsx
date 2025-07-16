@@ -37,51 +37,55 @@ const CheckEmailPage = () => {
   };
 
   return (
-    <div className='min-h-screen flex justify-center items-center bg-gradient-to-br from-slate-100 to-slate-200 px-4'>
-      <div className='bg-white w-full max-w-md rounded-xl shadow-md p-6'>
+    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4'>
+      <div className='bg-white w-full max-w-md rounded-2xl shadow-xl p-6 md:p-8'>
         {/* Icon */}
-        <div className='w-fit mx-auto mb-3 text-primary'>
+        <div className='w-fit mx-auto mb-4 text-primary'>
           <PiUserCircle size={80} />
         </div>
 
         {/* Title */}
-        <h3 className='text-2xl font-bold text-center text-slate-700'>
+        <h3 className='text-2xl font-bold text-center text-slate-800'>
           Welcome to Chat App!
         </h3>
-        <p className='text-center text-sm text-slate-500 mt-1'>Please enter your email to continue</p>
+        <p className='text-center text-sm text-slate-500 mt-1'>
+          Please enter your email to continue
+        </p>
 
         {/* Form */}
-        <form className='grid gap-4 mt-5' onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='grid gap-4 mt-6'>
           <div className='flex flex-col gap-1'>
-            <label htmlFor='email' className='font-medium text-sm text-slate-600'>
-              Email
+            <label htmlFor='email' className='text-sm font-medium text-slate-600'>
+              Email Address
             </label>
             <input
               type='email'
               id='email'
               name='email'
               placeholder='example@email.com'
-              className='bg-slate-100 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary'
+              className='bg-slate-100 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition'
               value={data.email}
               onChange={handleOnChange}
               required
             />
           </div>
 
-          <button
-            type='submit'
-            className='bg-primary text-white font-semibold py-2 rounded hover:bg-secondary transition'
-          >
-            Let’s Go
-          </button>
+  <button
+  type='submit'
+  className='bg-primary text-white text-sm font-medium px-6 py-2.5 rounded-xl shadow hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200'
+>
+  Let’s Go
+</button>
+
+
         </form>
 
         {/* Register Link */}
-        <p className='text-center text-sm mt-4'>
+        <p className='text-center text-sm mt-5 text-slate-600'>
           New User?{' '}
           <Link
             to='/register'
-            className='text-primary font-semibold hover:underline'
+            className='text-primary font-semibold hover:underline transition'
           >
             Register
           </Link>

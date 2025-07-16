@@ -1,130 +1,129 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Avatar from './Avatar'
-import uploadFile from '../helpers/uploadFile'
-import Divider from './Divider'
-import axios from 'axios'
-import toast from 'react-hot-toast'
-import { useDispatch } from 'react-redux'
-import { setUser } from '../redux/userSlice'
+import React, { useEffect, useRef, useState } from 'react';
+import Avatar from './Avatar';
+import uploadFile from '../helpers/uploadFile';
+import Divider from './Divider';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/userSlice';
 
 const EditUserDetails = ({ onClose, user }) => {
   const [data, setData] = useState({
     name: '',
     profile_pic: ''
-  })
+  });
 
-  const uploadPhotoRef = useRef()
-  const dispatch = useDispatch()
+  const uploadPhotoRef = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Only extract fields we want to update
     if (user) {
       setData({
         name: user.name || '',
         profile_pic: user.profile_pic || ''
-      })
+      });
     }
-  }, [user])
+  }, [user]);
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setData((prev) => ({
       ...prev,
       [name]: value
-    }))
-  }
+    }));
+  };
 
   const handleOpenUploadPhoto = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    uploadPhotoRef.current.click()
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    uploadPhotoRef.current.click();
+  };
 
   const handleUploadPhoto = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const uploadPhoto = await uploadFile(file)
+    const file = e.target.files[0];
+    if (!file) return;
+    const uploadPhoto = await uploadFile(file);
     if (uploadPhoto?.url) {
       setData((prev) => ({
         ...prev,
         profile_pic: uploadPhoto.url
-      }))
+      }));
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
     try {
-      const URL = `${import.meta.env.VITE_BACKEND_URL}/api/update-user`
+      const URL = `${import.meta.env.VITE_BACKEND_URL}/api/update-user`;
 
-      // Send only allowed fields
       const payload = {
-        _id: user._id, // assuming you use this to identify the user on server
+        _id: user._id,
         name: data.name,
         profile_pic: data.profile_pic
-      }
+      };
 
-      const response = await axios.post(URL, payload, { withCredentials: true })
+      const response = await axios.post(URL, payload, { withCredentials: true });
 
-      toast.success(response?.data?.message)
+      toast.success(response?.data?.message);
 
       if (response.data.success) {
-        dispatch(setUser(response.data.data))
-        onClose()
+        dispatch(setUser(response.data.data));
+        onClose();
       }
 
     } catch (error) {
-      console.error("Update Error:", error)
-      toast.error("Something went wrong. Please try again.")
+      console.error("Update Error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
-  }
+  };
 
   return (
-    <div className='fixed top-0 bottom-0 left-0 right-0 bg-gray-700 bg-opacity-40 flex justify-center items-center z-10'>
-      <div className='bg-white p-4 py-6 m-1 rounded w-full max-w-sm'>
-        <h2 className='font-semibold'>Profile Details</h2>
-        <p className='text-sm'>Edit user details</p>
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+      <div className="bg-white p-6 m-2 rounded-lg w-full max-w-sm shadow-lg">
+        <h2 className="font-semibold text-xl text-slate-800">Profile Details</h2>
+        <p className="text-sm text-slate-600">Edit user details</p>
 
-        <form className='grid gap-3 mt-3' onSubmit={handleSubmit}>
+        <form className="grid gap-4 mt-4" onSubmit={handleSubmit}>
           {/* Name */}
-          <div className='flex flex-col gap-1'>
-            <label htmlFor='name'>Name:</label>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="name" className="text-sm text-slate-700">Name:</label>
             <input
-              type='text'
-              name='name'
-              id='name'
+              type="text"
+              name="name"
+              id="name"
               value={data.name}
               onChange={handleOnChange}
-              className='w-full py-1 px-2 focus:outline-primary border-0.5'
+              className="w-full py-2 px-3 rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Photo */}
           <div>
-            <div>Photo:</div>
-            <div className='my-1 flex items-center gap-4'>
+            <div className="text-sm text-slate-700">Photo:</div>
+            <div className="my-2 flex items-center gap-4">
               <Avatar
                 width={40}
                 height={40}
                 imageUrl={data?.profile_pic}
                 name={data?.name}
               />
-              <label htmlFor='profile_pic'>
+              <label htmlFor="profile_pic">
                 <button
-                  className='font-semibold'
+                  type="button"
+                  className="text-blue-600 hover:underline text-sm font-medium"
                   onClick={handleOpenUploadPhoto}
                 >
                   Change Photo
                 </button>
                 <input
-                  type='file'
-                  id='profile_pic'
-                  className='hidden'
+                  type="file"
+                  id="profile_pic"
+                  className="hidden"
                   onChange={handleUploadPhoto}
                   ref={uploadPhotoRef}
-                  accept='image/*'
+                  accept="image/*"
                 />
               </label>
             </div>
@@ -132,18 +131,18 @@ const EditUserDetails = ({ onClose, user }) => {
 
           <Divider />
 
-          {/* Action buttons */}
-          <div className='flex gap-2 w-fit ml-auto'>
+          {/* Action Buttons */}
+          <div className="flex gap-3 justify-end">
             <button
-              type='button'
+              type="button"
               onClick={onClose}
-              className='border-primary border text-primary px-4 py-1 rounded hover:bg-primary hover:text-white'
+              className="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition"
             >
               Cancel
             </button>
             <button
-              type='submit'
-              className='border-primary bg-primary text-white border px-4 py-1 rounded hover:bg-secondary'
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
             >
               Save
             </button>
@@ -151,7 +150,7 @@ const EditUserDetails = ({ onClose, user }) => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default React.memo(EditUserDetails)
+export default React.memo(EditUserDetails);

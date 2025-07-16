@@ -1,4 +1,4 @@
-// src/routes/index.jsx
+
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
@@ -8,9 +8,9 @@ import CheckPasswordPage from '../pages/CheckPasswordPage';
 import ForgotPassword from '../pages/Forgotpassword';
 import Home from '../pages/Home';
 import MessagePage from '../components/MessagePage';
-import GroupChat from '../components/GroupChat';       // ✅ Add this
-import GroupList from '../components/GroupList';       // ✅ Add this
-import CreateGroup from '../components/CreateGroup';   // ✅ Add this
+import GroupChat from '../components/GroupChat';       
+import GroupList from '../components/GroupList';      
+import CreateGroup from '../components/CreateGroup';   
 import AuthLayouts from '../layout';
 
 const router = createBrowserRouter([
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
             element: <MessagePage />,
           },
 
-          // ✅ GROUP CHAT ROUTES
+          //  GROUP CHAT ROUTES
           {
             path: 'group/:groupId',
             element: <GroupChat />,
